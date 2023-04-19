@@ -16,6 +16,7 @@ get_data = [
     ]
 ]
 
+
 api.addMethod(method="GET", prefix="/test-get",
               param_type="param", data=get_data)
 
