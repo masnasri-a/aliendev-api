@@ -7,7 +7,7 @@ readme = "README.md"
 packages = [{include = "aliendev_api"}]
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.7"
 pymongo = "^4.3.3"
 configparser = "^5.3.0"
 pydantic = "^1.10.7"
