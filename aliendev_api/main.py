@@ -2,6 +2,7 @@ from bson.objectid import ObjectId
 from aliendev_api.config import mongo
 from pydantic import BaseModel, Field
 from enum import Enum
+import os, json
 
 def _case(param: str):
     splitter = param.lower().replace(" ", "-")
@@ -21,11 +22,22 @@ class ParamData(BaseModel):
 
 
 class ApiGateway:
-    def __init__(self, username, title) -> None:
-        self.username = username
+    def __init__(self, title) -> None:
+        self.username = ""
+        self.account_id= ""
         self.title = title
         self.stack_name = _case(title)
         self.endpoint = []
+        print("Deploying API Gateway 🤩")
+        home_folder = os.path.expanduser("~")
+        path = f'{home_folder}/.aliendev'
+        if not os.path.exists(path+"/config.json"):
+            print("Please Login first 😊")
+        else:
+            with open(path+"/config.json", "r") as file:
+                json_file = json.load(file)
+                self.username = json_file.get("username")
+                self.account_id = json_file.get("_id")
 
     def addMethod(self, method, prefix, param_type:ParamType, data:ParamData):
         """
@@ -59,6 +71,7 @@ class ApiGateway:
         objId = ObjectId()
         result_data = {
             "_id": str(objId),
+            "account_id":self.account_id,
             "username": self.username,
             "title": self.title,
             "stack_name": self.stack_name,
@@ -73,5 +86,5 @@ class ApiGateway:
                 db['gateway'].update_one({"_id": finder['_id']}, newvalues)
             else:
                 db['gateway'].insert_one(result_data)
-
+        print("API Gateway has deployed 🎉")
         return result_data
