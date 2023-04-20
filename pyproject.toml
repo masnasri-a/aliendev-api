@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aliendev-api"
-version = "0.1.3"
+version = "0.1.4"
 description = ""
 authors = ["Nasri Adzlani <nasri@jkt1.ebdesk.com>"]
 readme = "README.md"
